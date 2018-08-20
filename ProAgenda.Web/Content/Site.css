@@ -1,0 +1,64 @@
+﻿body {
+    padding-top: 50px;
+    padding-bottom: 20px;
+}
+
+.ENQUIRY {
+    
+    background-color: #FF9933;
+    border-color: #C0C0C0; 
+    color: White;
+    background-position: 1px 1px;
+    background-repeat: no-repeat;
+    background-image: url('Bubble.png');
+    padding-left: 50px;
+}
+
+.BOOKED {
+    background-color: #33CCFF;
+    border-color: #C0C0C0;
+    color: White; /* text color */
+    background-position: 1px 1px;
+    background-repeat: no-repeat;
+    background-image: url('ok.png');
+    padding-left: 50px;
+}
+
+
+.popUpShadowCss {
+    opacity: 0.8;
+    background: #000000;
+    position: absolute;
+    display: none;
+    z-index: 9000;
+    display: none;
+    height: 100%;
+    width: 100%
+}
+
+.popUpCss {
+    position: absolute;
+    z-index: 9001;
+    background-color: #428bca;
+    padding: 0 0 0 0;
+    height: 347px;
+    width: 563px;
+    margin: 136px 0 0 30%;
+    display: none;
+    border-radius: 6px;
+}
+
+.cssTextoPopUp {
+    color: #000;
+    font-family: inherit;
+    margin: 6px 0 0 6px;
+}
+
+.divInterna {
+    border-radius: 6px;
+    color: #ffffff;
+    height: 317px;
+    width: 545px;
+    background: #E9F0F9;
+    margin: 8px 0 0 8px;
+}

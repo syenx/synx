@@ -1,0 +1,159 @@
+﻿
+@{
+    ViewBag.Title = "Calendar";
+}
+
+   
+<script>   
+
+   
+
+    function obterParametros() {
+        var vars = [], hash;
+        var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
+
+        for (var i = 0; i < hashes.length; i++) {
+            hash = hashes[i].split('=');
+            vars.push(hash[0]);
+            vars[hash[0]] = hash[1];
+        }
+        return vars; 
+    }
+
+    function salvar(dia) {
+        var allParameter = obterParametros();   // 6
+        var dataAgora = new Date();
+
+        var ano = allParameter['year'].length > 2 ? allParameter['year'] : '0' + allParameter['year'];
+        var mes = allParameter['month'].length > 2 ? allParameter['month'] : '0' + allParameter['month'];
+        $(dia).css('background-color', 'red').css('color', '#ffff');
+        $("#txtDate").val(ano + "." + mes + "." + $(dia).text());
+        txtPopUp.innerText = 'Dia: ' + $(dia).text() + ' mes: ' + mes + ' Ano:' + ano + ' Hora: ' + hora;
+        var hora = dataAgora.getHours() + ':' + dataAgora.getMinutes() + ':' + dataAgora.getSeconds();
+        if ($(dia).hasClass('pintaCampo')) {
+            $(dia).addClass('VoltarCor');
+        } else {
+            $(dia).addClass('pintaCampo')
+        }
+
+
+        var hora = dataAgora.getHours() + ':' + dataAgora.getMinutes() + ':' + dataAgora.getSeconds();
+        if ($(dia).hasClass('pintaCampo')) {
+            $(dia).addClass('VoltarCor');
+        } else {
+            $(dia).addClass('pintaCampo')
+        }
+      //  $(dia).css('background', '#054dfa').css('color', '#ffff')
+        AbrirPopUp();
+        txtPopUp.innerText = 'Dia: ' + $(dia).text() + ' mes: ' + mes + ' Ano:' + ano + ' Hora: ' + hora;
+    }
+ </script>
+<script type="text/javascript" src="@Url.Content("/Scripts/scriptAgenda.js")"></script>
+   
+<style>
+    .pintaCampo {
+        background-color: #054dfa !important;
+        color: #ffffff
+    }
+    .VoltarCor {
+        background-color: #E9F0F9 !important;
+        color: #000000
+    }
+
+</style>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+
+            @{
+                int mes = DateTime.Now.Month;
+                int dia = DateTime.Now.Day;
+                int ano = DateTime.Now.Year;
+
+                if (ViewBag.Year != null && ViewBag.Month != null)
+                {
+                    mes = ViewBag.Month;
+                    ano = ViewBag.Year;
+                    dia = 1;
+                }
+
+                DateTime selectedDate = new DateTime(ano, mes, dia);
+                int numeroDeDiasCorridos = System.DateTime.DaysInMonth(ano, mes);
+                string currentMonthString = selectedDate.ToString("MMMM");
+
+                <h1>Calendario @currentMonthString @ano</h1>
+
+                <center>
+                    <table>
+                        <tr>
+                            <td>
+                                <div class="btn-sm btn-primary">
+                                    @Html.ActionLink("<<", "Index", new { year = ano, month = mes - 1 }, new { @style = "color:#ffffff;font-weight:bold;" })
+                                </div>
+                            </td>
+                            <td>
+                                <div class="btn-sm btn-primary">
+                                    @Html.ActionLink(">>", "Index", new { year = ano, month = mes + 1 }, new { @style = "color:#ffffff;font-weight:bold;" })
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+                </center>
+                <br />
+                <table class="table-bordered" style="width:100%; border-color:#000000; border:1px;">
+                    <tr>
+                        <th style=" background-color: #428bca; text-align:center;">Sábado</th>
+                        <th style=" background-color: #428bca; text-align:center;">Segunda</th>
+                        <th style=" background-color: #428bca; text-align:center;">Terça</th>
+                        <th style=" background-color: #428bca; text-align:center;">Quarta</th>
+                        <th style=" background-color: #428bca; text-align:center;">Quinta</th>
+                        <th style=" background-color: #428bca; text-align:center;">Sexta</th>
+                        <th style=" background-color: #428bca; text-align:center;">Sabado</th>
+                    </tr>
+                    @for (int i = 1; i <= numeroDeDiasCorridos; i++)
+                    {
+                        string diaDaSemana = (new DateTime(ano, mes, i)).ToString("ddd");
+                        int dayOfTheWeekValue = (int)(new DateTime(ano, mes, i)).DayOfWeek;
+
+                        if (diaDaSemana != "Sáb" && i == 1)
+                        {
+                            @:<tr>
+                            
+                            for (int j = 1; j <= dayOfTheWeekValue; j++)
+                            {
+                                @:<td>&nbsp;</td>
+                            }
+                        }
+
+                        if (diaDaSemana == "dom")
+                        {
+                            @:<tr>
+                        }
+
+                        <td onclick="salvar(this)" id="myDay" style="background-color:#E9F0F9;padding:10px;min-height:100px;min-width:100px;vertical-align:top;"><span style="font-size:x-small"><b>@i</b><br /></span></td>
+
+                        if (diaDaSemana == "sáb" && i == numeroDeDiasCorridos)
+                        {
+                            @:</tr>
+                        }
+
+                        if (i == numeroDeDiasCorridos)
+                        {
+                            for (int k = dayOfTheWeekValue; k < 6; k++)
+                            {
+                                @:<td>&nbsp;</td>
+                            }
+                            @:</tr>
+                        }
+                    }
+                </table>
+            }
+
+        </div>
+    </div>
+</div>
+
+
+
+
